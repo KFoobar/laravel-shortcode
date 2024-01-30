@@ -15,7 +15,7 @@ composer require kfoobar/laravel-shortcode
 Publish the configuration file to customize settings:
 
 ```bash
-php artisan vendor:publish --provider="KFoobar\Shortcode\ShortcodeServiceProvider"
+php artisan vendor:publish --tag=shortcode-config
 ```
 
 ## Usage
