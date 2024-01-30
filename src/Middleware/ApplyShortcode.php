@@ -1,6 +1,6 @@
 <?php
 
-namespace KFoobar\Shortcode\Middlware;
+namespace KFoobar\Shortcode\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Foundation\Application;
@@ -88,9 +88,18 @@ class ApplyShortcode
      */
     protected function isNova($request)
     {
-        $path = ltrim(trim(config('nova.path'), '/'), '/');
+        $paths = array_filter([
+            ltrim(trim(config('nova.path'), '/'), '/'),
+            'nova-api',
+        ]);
 
-        return !empty($path) && $request->is($path . '*') ? true : false;
+        foreach ($paths as $path) {
+            if ($request->is($path . '*')) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
