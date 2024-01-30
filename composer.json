@@ -1,0 +1,43 @@
+{
+    "name": "kfoobar/laravel-shortcode",
+    "description": "A versatile and easy-to-use shortcode manager for Laravel applications, offering a simple way to integrate and manage shortcodes within a Laravel project.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["laravel", "shortcode", "content management"],
+    "authors": [
+        {
+            "name": "KFoobar",
+            "email": "david@kfoobar.se"
+        }
+    ],
+    "support": {
+        "email": "david@kfoobar.se",
+        "issues": "https://github.com/kfoobar/laravel-shortcode/issues"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": "^8",
+        "ext-json": "*",
+        "illuminate/config": "^8.0||^9.0||^10.0",
+        "illuminate/database": "^8.0||^9.0||^10.0",
+        "illuminate/support": "^8.0||^9.0||^10.0",
+        "illuminate/view": "^8.0||^9.0||^10.0"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "KFoobar\\Shortcode\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "KFoobar\\Shortcode\\ShortcodeServiceProvider"
+            ],
+            "aliases": {
+                "Shortcode": "KFoobar\\Shortcode\\Facades\\Shortcode"
+            }
+        }
+    }
+}
