@@ -2,10 +2,10 @@
 
 namespace KFoobar\Shortcode;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use KFoobar\Shortcode\Macros\WithShortcode;
 
 class ShortcodeServiceProvider extends BaseServiceProvider
 {
@@ -26,23 +26,34 @@ class ShortcodeServiceProvider extends BaseServiceProvider
      */
     public function boot()
     {
-        Blade::directive('shortcode', function (string $expression) {
-            return "<?php echo Shortcode::render($expression); ?>";
-        });
-
-        Collection::macro('withShortcode', function () {
-            return $this->map(function ($item) {
-                if ($item instanceof Model && method_exists($item, 'withShortcode')) {
-                    return $item->withShortcode();
-                }
-
-                return $item;
-            });
-        });
+        $this->registerBlade();
+        $this->registerMacro();
 
         $this->publishes([
             __DIR__ . '/../config/shortcode.php' => config_path('shortcode.php'),
         ], 'shortcode-config');
+    }
+
+    /**
+     * Register Blade directives.
+     *
+     * @return void
+     */
+    protected function registerBlade(): void
+    {
+        Blade::directive('shortcode', function ($expression) {
+            return "<?php echo \KFoobar\Shortcode\Facades\Shortcode::render($expression); ?>";
+        });
+    }
+
+    /**
+     * Register macros.
+     *
+     * @return void
+     */
+    protected function registerMacro(): void
+    {
+        Collection::macro('withShortcode', resolve(WithShortcode::class)());
     }
 
     /**
